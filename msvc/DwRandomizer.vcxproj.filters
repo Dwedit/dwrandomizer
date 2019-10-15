@@ -28,6 +28,9 @@
     <Filter Include="MetaObjects">
       <UniqueIdentifier>{2b25a0a3-9561-4b9a-a977-a1fa6185f35b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\nsf_inject">
+      <UniqueIdentifier>{e2266e30-9101-4162-9b61-728664564c1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\build.h">
@@ -56,6 +59,12 @@
     </ClInclude>
     <ClInclude Include="..\common\sprites.h">
       <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\nsf_inject\Assembler.h">
+      <Filter>Source Files\nsf_inject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\nsf_inject\InjectNSF.h">
+      <Filter>Source Files\nsf_inject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -94,6 +103,12 @@
     </ClCompile>
     <ClCompile Include="MetaObjects\moc_widgets.cpp">
       <Filter>MetaObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\nsf_inject\InjectNSF.cpp">
+      <Filter>Source Files\nsf_inject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\nsf_inject\Assembler.cpp">
+      <Filter>Source Files\nsf_inject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -74,6 +74,9 @@ private:
     QPushButton *goButton;
     QGridLayout *optionGrids[TAB_COUNT];
     QWidget *tabContents[TAB_COUNT];
+
+	//new:
+	FileEntryNSF *nsfFile;
 };
 
 

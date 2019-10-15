@@ -18,10 +18,12 @@
 
 #define __STDC_FORMAT_MACROS
 #include <cinttypes>
+#include <stdio.h>
 
 #include "dwr.h"
 #include "sprites.h"
 #include "main-window.h"
+#include "../nsf_inject/InjectNSF.h"
 
 #define PANE_COLUMNS 2
 #define PANE_ROWS    7
@@ -78,7 +80,8 @@ void MainWindow::initWidgets()
     this->levelSpeed = new LevelComboBox(this);
     this->goButton = new QPushButton("Randomize!", this);
     this->spriteSelect = new QComboBox(this);
-    for (size_t i=0; i < sprite_count(); ++i) {
+	this->nsfFile = new FileEntryNSF(this);
+	for (size_t i=0; i < sprite_count(); ++i) {
        spriteSelect->addItem(dwr_sprite_names[i]);
     }
     this->tabWidget = new QTabWidget(this);
@@ -177,6 +180,7 @@ void MainWindow::layout()
     this->addOption('m', "Modern Spell Names",                 COSMETIC,  2, 0);
     this->addLabel("Player Sprite",                            COSMETIC,  0, 1);
     this->placeWidget(this->spriteSelect,                      COSMETIC,  1, 1);
+	this->placeWidget(this->nsfFile,						   COSMETIC,  2, 1);
 
     goLayout->addWidget(new QLabel("", this), 0, 0, 0);
     goLayout->addWidget(new QLabel("", this), 0, 1, 0);
@@ -294,10 +298,23 @@ void MainWindow::handleButton()
     std::string outputDir = this->outputDir->text().toLatin1().constData();
     std::string spriteName =
                 this->spriteSelect->currentText().toLatin1().constData();
+	std::string nsfFile = this->nsfFile->text().toLatin1().constData();
     uint64_t crc = dwr_randomize(inputFile.c_str(), seed, flags,
                                  spriteName.c_str(), outputDir.c_str());
+
     if (crc) {
-        sprintf(checksum, "Checksum: %016" PRIx64, crc);
+		if (nsfFile.size() > 0)
+		{
+			char output_file[1024];
+			snprintf(output_file, 1024, "%s/DWRando.%" PRIu64 ".%s.nes", outputDir.c_str(), seed,
+				flags);
+			if (!injectnsf::InjectNSF(output_file, nsfFile.c_str(), 0))
+			{
+				QMessageBox::critical(this, "Failed", "Failed to inject NSF into the rom.");
+			}
+		}
+		
+		sprintf(checksum, "Checksum: %016" PRIx64, crc);
         QGuiApplication::clipboard()->setText(checksum);
         this->statusBar()->showMessage(
                 QString("%1 (copied to clipboard)").arg(checksum));
@@ -329,6 +346,7 @@ bool MainWindow::saveConfig()
     out << this->outputDir->text() << endl;
     out << this->getFlags() << endl;
     out << this->spriteSelect->currentIndex() << endl;
+	out << this->nsfFile->text() << endl;
 
     return true;
 }
@@ -368,11 +386,16 @@ bool MainWindow::loadConfig()
         this->setOptions(tmp);
     }
 
-    read = configFile.readLine(tmp, 1024);
-    if (read) {
-        int spriteIndex = atoi(tmp);
-        this->spriteSelect->setCurrentIndex(spriteIndex);
-    }
+	read = configFile.readLine(tmp, 1024);
+	if (read) {
+		int spriteIndex = atoi(tmp);
+		this->spriteSelect->setCurrentIndex(spriteIndex);
+	}
+
+	read = configFile.readLine(tmp, 1024);
+	if (read) {
+		this->nsfFile->setText(tmp);
+	}
 
     return true;
 }

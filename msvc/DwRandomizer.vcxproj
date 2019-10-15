@@ -161,6 +161,8 @@
     <ClInclude Include="..\common\mt64.h" />
     <ClInclude Include="..\common\patch.h" />
     <ClInclude Include="..\common\sprites.h" />
+    <ClInclude Include="..\nsf_inject\Assembler.h" />
+    <ClInclude Include="..\nsf_inject\InjectNSF.h" />
     <CustomBuild Include="..\ui\main-window.h">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc.exe "%(FullPath)" &gt; "$(ProjectDir)MetaObjects\moc_%(Filename).cpp</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">QT: Generate $(ProjectDir)MetaObjects\moc_%(Filename).cpp</Message>
@@ -198,6 +200,8 @@
     <ClCompile Include="..\common\mt19937-64.c" />
     <ClCompile Include="..\common\patch.c" />
     <ClCompile Include="..\common\sprites.c" />
+    <ClCompile Include="..\nsf_inject\Assembler.cpp" />
+    <ClCompile Include="..\nsf_inject\InjectNSF.cpp" />
     <ClCompile Include="..\ui\main-window.cpp" />
     <ClCompile Include="..\ui\main.cpp" />
     <ClCompile Include="..\ui\widgets.cpp" />

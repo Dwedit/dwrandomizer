@@ -72,12 +72,21 @@ protected:
 };
 
 class FileEntry : public ButtonEntry {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    typedef ButtonEntry super;
-    FileEntry(QWidget *parent = 0);
+	typedef ButtonEntry super;
+	FileEntry(QWidget *parent = 0);
 private slots:
-    void handleButton();
+	void handleButton();
+};
+
+class FileEntryNSF : public ButtonEntry {
+	Q_OBJECT
+public:
+	typedef ButtonEntry super;
+	FileEntryNSF(QWidget *parent = 0);
+private slots:
+	void handleButton();
 };
 
 class DirEntry : public ButtonEntry {

@@ -139,16 +139,30 @@ void ButtonEntry::setText(QString text)
 
 FileEntry::FileEntry(QWidget *parent) : ButtonEntry(parent)
 {
-    this->button->setText("Browse...");
-    this->label->setText("ROM File");
+	this->button->setText("Browse...");
+	this->label->setText("ROM File");
 }
 
 void FileEntry::handleButton()
 {
-    QString filename = QFileDialog::getOpenFileName(
-           this, "Choose the ROM file", "./", "NES ROM Files (*.nes)");
-    if (filename.size())
-        this->textBox->setText(filename);
+	QString filename = QFileDialog::getOpenFileName(
+		this, "Choose the ROM file", "./", "NES ROM Files (*.nes)");
+	if (filename.size())
+		this->textBox->setText(filename);
+}
+
+FileEntryNSF::FileEntryNSF(QWidget *parent) : ButtonEntry(parent)
+{
+	this->button->setText("Browse...");
+	this->label->setText("Play NSF after beating the game");
+}
+
+void FileEntryNSF::handleButton()
+{
+	QString filename = QFileDialog::getOpenFileName(
+		this, "Choose the NSF file", "./", "NSF Files (*.nsf)");
+	if (filename.size())
+		this->textBox->setText(filename);
 }
 
 DirEntry::DirEntry(QWidget *parent) : ButtonEntry(parent)
